@@ -1,0 +1,1 @@
+export const HIDEN_FORM = 'FORM/HIDEN_FORM';
