@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { hideFormReduser } from './searchReduser';
+import { hideFormReduser } from './hidenReduser';
 
 export const rootReduser = combineReducers({
    users: hideFormReduser,

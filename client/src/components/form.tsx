@@ -4,11 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-interface FormProps {
-   closeHandler(): void,
+export type CloseHandler = {
+   closeHandler(): any
 }
 
-export const Form: React.FC<FormProps> = ({ closeHandler }) => {
+export const Form: React.FC<CloseHandler> = ({ closeHandler }) => {
    const useStyles = makeStyles({
       root: {
          margin:'15px 0 0 0',
