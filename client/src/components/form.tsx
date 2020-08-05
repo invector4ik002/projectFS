@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +9,7 @@ export type CloseHandler = {
 }
 
 export const Form: React.FC<CloseHandler> = ({ closeHandler }) => {
+
    const useStyles = makeStyles({
       root: {
          margin:'15px 0 0 0',
@@ -22,16 +23,48 @@ export const Form: React.FC<CloseHandler> = ({ closeHandler }) => {
          padding: '10px'
        }
     });
-
    const classes = useStyles();
+
+   const [form, setForm] = useState({
+      name: '',
+      surname: '',
+      email: ''
+   });
+
+   const changeHandler = (event: any) => { 
+      setForm({ ...form, [event.target.name]: event.target.value})
+      console.log(form)
+   };
 
    return (
       <div className="wrapper">
       <form className='form-create-users'  noValidate autoComplete="off">
          <p>Создание пользователя</p>
-         <TextField className={classes.root} id="name-basic"  label="Имя" variant="outlined"  />
-         <TextField className={classes.root} id="surname-basic" label="Фамилия" variant="outlined"  />
-         <TextField className={classes.root} id="E-mail-basic" label="E-mail" variant="outlined" error helperText="Необходимо ввести"/>
+         <TextField 
+            className={classes.root} 
+            id="name-basic"  label="Имя" 
+            variant="outlined"
+            name="name" 
+            onChange={changeHandler} 
+         />
+         <TextField 
+         className={classes.root} 
+            id="surname-basic" 
+            label="Фамилия" 
+            variant="outlined"
+            name="surname" 
+            onChange={changeHandler} 
+         />
+         <TextField 
+            className={classes.root} 
+            id="E-mail-basic" 
+            label="E-mail" 
+            variant="outlined" 
+            error 
+            helperText="Необходимо ввести"
+            name="email"
+            onChange={changeHandler}
+         />
          <Button 
             className={classes.palette} 
             variant="contained" 
