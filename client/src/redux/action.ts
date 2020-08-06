@@ -25,9 +25,9 @@ export function hidenForm(value: boolean): ActionHideFormType {
 }
 //: ActionGetChangeFormType 
 //name: string, surname: string, email: string
-export function getChangeForm(form:any){
+export function getChangeForm(form: any){
    return {
       type: GET_CHANGE_FORM,
-      payload:form
+      payload: form
    } 
 }

@@ -2,7 +2,10 @@ import React from 'react';
 import { Form } from './components/form';
 import { UserList } from './components/userList';
 import { useDispatch } from 'react-redux';
-import { hidenForm, getChangeForm } from './redux/action';
+import { hidenForm } from './redux/action';
+
+// import { getChangeForm } from './redux/action';
+// import { useDispatch } from 'react-redux';
 
 type StateProps = {
    form: any,
@@ -15,14 +18,14 @@ console.log(form)
    const dispatch = useDispatch()
 
    const closeHandler = () => {
-      // dispatch(getChangeForm(form))
+      // dispatch(getChangeForm(x))
       dispatch(hidenForm(false))
       console.log(hide)
    };
 
    return (
       <>
-         {hide && <Form closeHandler={closeHandler}/>}
+         {hide && <Form closeHandler={closeHandler}  />}
          <UserList />
       </>
    );

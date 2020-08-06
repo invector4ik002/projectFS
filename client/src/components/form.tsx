@@ -11,7 +11,7 @@ export type CloseHandler = {
 }
 
 export const Form: React.FC<CloseHandler> = ({ closeHandler,  }) => {
-   const dispatch = useDispatch()
+   const dispatch = useDispatch();
    const useStyles = makeStyles({
       root: {
          margin:'15px 0 0 0',
