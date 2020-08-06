@@ -5,14 +5,16 @@ export type ActionHideFormType = {
    payload: boolean
 }
 
-export type ActionGetChangeFormPayloadType = {
-   name: string,
-   surname: string,
-   email: string
-}
+// export type ActionGetChangeFormPayloadType = {
+//    form: {
+//       name: string,
+//       surname: string,
+//       email: string
+//    }
+// }
 export type ActionGetChangeFormType = {
    type: typeof GET_CHANGE_FORM,
-   payload: ActionGetChangeFormPayloadType
+   // payload: ActionGetChangeFormPayloadType
 }
 
 export function hidenForm(value: boolean): ActionHideFormType {
@@ -21,10 +23,11 @@ export function hidenForm(value: boolean): ActionHideFormType {
       payload: value
    } 
 }
-
-export function getChangeForm(name: string, surname: string, email: string): ActionGetChangeFormType {
+//: ActionGetChangeFormType 
+//name: string, surname: string, email: string
+export function getChangeForm(form:any){
    return {
       type: GET_CHANGE_FORM,
-      payload: { name, surname, email }
+      payload:form
    } 
 }

@@ -2,18 +2,20 @@ import React from 'react';
 import { Form } from './components/form';
 import { UserList } from './components/userList';
 import { useDispatch } from 'react-redux';
-import { hidenForm } from './redux/action';
+import { hidenForm, getChangeForm } from './redux/action';
 
 type StateProps = {
+   form: any,
    hide: boolean,
    hidenForm: () => any
 }
 
-export const App: React.FC<StateProps> = ({hide}) => {
-
+export const App: React.FC<StateProps> = ({hide, form}) => {
+console.log(form)
    const dispatch = useDispatch()
 
    const closeHandler = () => {
+      // dispatch(getChangeForm(form))
       dispatch(hidenForm(false))
       console.log(hide)
    };

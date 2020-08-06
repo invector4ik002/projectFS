@@ -3,13 +3,15 @@ import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import {getChangeForm} from '../redux/action';
+import { useDispatch } from 'react-redux';
 
 export type CloseHandler = {
    closeHandler(): any
 }
 
-export const Form: React.FC<CloseHandler> = ({ closeHandler }) => {
-
+export const Form: React.FC<CloseHandler> = ({ closeHandler,  }) => {
+   const dispatch = useDispatch()
    const useStyles = makeStyles({
       root: {
          margin:'15px 0 0 0',
@@ -33,6 +35,8 @@ export const Form: React.FC<CloseHandler> = ({ closeHandler }) => {
 
    const changeHandler = (event: any) => { 
       setForm({ ...form, [event.target.name]: event.target.value})
+      // getChangeForm
+      dispatch(getChangeForm(form))
       console.log(form)
    };
 

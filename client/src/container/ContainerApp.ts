@@ -5,7 +5,8 @@ import { App } from '../App'
 
 const mapStateToProps = (state: AppStateType) => {
    return {
-      hide: state.users.hiden
+      hide: state.hiden.hiden,
+      form: state.form.form
    }
 }
 

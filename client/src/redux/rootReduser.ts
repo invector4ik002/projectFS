@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import { hideFormReduser } from './hidenReduser';
+import { hideFormReduser} from './hidenReduser';
+import { getChangeForm } from './formReduser';
 
 export const rootReduser = combineReducers({
-   users: hideFormReduser,
+   hiden: hideFormReduser,
+   form: getChangeForm
 })
 // console.log(users)
 type RootReduserType = typeof rootReduser;

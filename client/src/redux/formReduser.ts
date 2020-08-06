@@ -1,23 +1,24 @@
 import { GET_CHANGE_FORM } from './types';
-import { ActionGetChangeFormType } from './action';
+// import { ActionGetChangeFormType } from './action';
 
-type initialStateType = {
-   name: string,
-   surname: string,
-   email: string
+// type initialStateType = {
+//    form:{
+//       name: string,
+//       surname: string,
+//       email: string
+//    } 
+// }
+//initialStateType 
+const initialState = {
+   form: {}
 }
-
-const initialState: initialStateType = {
-   name: '',
-   surname: '',
-   email: ''
-}
-
-export const getChangeForm = ( state = initialState, action: ActionGetChangeFormType): initialStateType => {
+//: initialStateType
+//: ActionGetChangeFormType
+export const getChangeForm = ( state = initialState, action:any) => {
    //
    switch(action.type) {
       case GET_CHANGE_FORM:
-         return {...state,  name: action.payload}
+         return {...state, form: action.payload}
       default: return state
    }
 }
