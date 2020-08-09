@@ -1,7 +1,7 @@
 import { HIDEN_FORM } from './types';
 import { ActionHideFormType } from './action'
 
-type initialStateType = {
+export type initialStateType = {
    hiden: boolean
 }
 

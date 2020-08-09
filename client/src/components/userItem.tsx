@@ -52,26 +52,44 @@ const useStyles = makeStyles((theme) => ({
    }
  }));
 
-const message = `Truncation should`;
-
-export const UserItem = () => {
-   const classes = useStyles();
-  return (
-   <>
-      <Paper className={classes.wrapper}>
-         <Typography className={classes.number} color="textSecondary" gutterBottom>#1</Typography>
-         <Paper className={classes.paper}>
-            <Grid container direction="row" wrap="nowrap" spacing={2} >
-               <Grid item>
-                  <Avatar className={classes.awatar}>MD</Avatar>
-               </Grid>
-               <Grid item xs>
-                  <Typography>{message}</Typography>
-                  <Typography className={classes.title} color="textSecondary" gutterBottom>E-mail@blabla.com</Typography>
-               </Grid>
-            </Grid>
-         </Paper>
-      </Paper>
-   </>
-  )
+type usersType = {
+   name: string,
+   surname: string,
+   email: string
 }
+
+type StateProps = {
+   // hide: boolean,
+   users: usersType[]
+}
+
+export const UserItem: React.FC<StateProps> = ({ users }) => {
+  console.log(users)
+  const classes = useStyles();
+
+//  {users.map(user => {
+
+   return (
+      <>
+         {users.map((user, idx) => {
+          console.log(user)
+         return (
+               <Paper className={classes.wrapper} key={idx}>
+                  <Typography className={classes.number} color="textSecondary" gutterBottom>#{idx +1}</Typography>
+                  <Paper className={classes.paper}>
+                     <Grid container direction="row" wrap="nowrap" spacing={2} >
+                        <Grid item>
+                           <Avatar className={classes.awatar}>MD</Avatar>
+                        </Grid>
+                        <Grid item xs>
+                           <Typography>{user.name} {user.surname}</Typography>
+                           <Typography className={classes.title} color="textSecondary" gutterBottom>{user.email}</Typography>
+                        </Grid>
+                     </Grid>
+                  </Paper>
+               </Paper>
+            )
+         })} 
+      </>
+   ) 
+};

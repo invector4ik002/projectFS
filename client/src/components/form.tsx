@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
 
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import {getChangeForm} from '../redux/action';
+import Tooltip from '@material-ui/core/Tooltip';
+
 import { useDispatch } from 'react-redux';
+import { hidenForm, getChangeForm} from '../redux/action';
+import { useHttp } from '../hooks/http.hook';
 
-export type CloseHandler = {
-   closeHandler(): any
-}
-
-export const Form: React.FC<CloseHandler> = ({ closeHandler,  }) => {
+export const Form: React.FC = () => {
    const dispatch = useDispatch();
+   
+   const theme = createMuiTheme({
+      overrides: {
+        MuiTooltip: {
+          tooltip: {
+            fontSize: "1em",
+            color: "#fff",
+            backgroundColor: "#00acc1"
+          }
+        }
+      }
+    });
+
    const useStyles = makeStyles({
       root: {
          margin:'15px 0 0 0',
@@ -23,21 +35,38 @@ export const Form: React.FC<CloseHandler> = ({ closeHandler,  }) => {
          width: '100%',
          fontSize: '8px',
          padding: '10px'
-       }
+      }
     });
    const classes = useStyles();
 
-   const [form, setForm] = useState({
-      name: '',
-      surname: '',
-      email: ''
-   });
+   const [form, setForm] = useState({ name: '', surname: '', email: '' });
+   const [open, setOpen] = useState(false);
+   // loading, 
+   const {request} = useHttp();
 
    const changeHandler = (event: any) => { 
       setForm({ ...form, [event.target.name]: event.target.value})
-      // getChangeForm
+   };
+
+   const createHandler = async () => {
+      try {
+         const data = await request('/api/user/create', 'POST', {...form})
+         console.log(data)
+      } catch(e) {}
+   };
+
+   const handleTooltipClose = () => {
+      setOpen(false);
+    };
+
+   const closeHandler  = () => {
+      if ( form.email === '') {
+         setOpen(true);
+         return
+      }
+      createHandler()
+      dispatch(hidenForm(false))
       dispatch(getChangeForm(form))
-      console.log(form)
    };
 
    return (
@@ -52,7 +81,7 @@ export const Form: React.FC<CloseHandler> = ({ closeHandler,  }) => {
             onChange={changeHandler} 
          />
          <TextField 
-         className={classes.root} 
+            className={classes.root}
             id="surname-basic" 
             label="Фамилия" 
             variant="outlined"
@@ -60,22 +89,34 @@ export const Form: React.FC<CloseHandler> = ({ closeHandler,  }) => {
             onChange={changeHandler} 
          />
          <TextField 
-            className={classes.root} 
+            className={classes.root}
             id="E-mail-basic" 
             label="E-mail" 
             variant="outlined" 
             error 
+            autoFocus
             helperText="Необходимо ввести"
             name="email"
             onChange={changeHandler}
          />
-         <Button 
-            className={classes.palette} 
-            variant="contained" 
-            color="primary"
-            onClick={closeHandler}
-         >Создать
-         </Button>
+         <MuiThemeProvider theme={theme}>
+         <Tooltip
+            PopperProps={{
+               disablePortal: true,
+            }}
+            onClose={handleTooltipClose}
+            open={open}
+            title="Необходимо заполнить поля"
+         >
+            <Button 
+               className={classes.palette} 
+               variant="contained" 
+               color="primary"
+               onClick={closeHandler}
+            >Создать
+            </Button>
+         </Tooltip>
+         </MuiThemeProvider>
       </form>
     </div>
    )
