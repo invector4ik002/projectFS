@@ -5,7 +5,7 @@ const initialState = {
 }
 
 export const getChangeForm = ( state = initialState, action: any) => {
-   //
+
    switch(action.type) {
       case GET_CHANGE_FORM:
          return {...state, form: action.payload}

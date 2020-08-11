@@ -1,2 +1,3 @@
 export const HIDEN_FORM = 'FORM/HIDEN_FORM';
 export const GET_CHANGE_FORM = 'FORM/GET_CHANGE_FORM';
+export const GET_DATA_USERS = 'GET_DATA_USERS';

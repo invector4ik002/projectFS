@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
 import { makeStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { useDispatch } from 'react-redux';
 import { hidenForm, getChangeForm} from '../redux/action';
 import { useHttp } from '../hooks/http.hook';
 
@@ -38,36 +38,54 @@ export const Form: React.FC = () => {
       }
     });
    const classes = useStyles();
+   const {request} = useHttp();
 
    const [form, setForm] = useState({ name: '', surname: '', email: '' });
-   const [open, setOpen] = useState(false);
-   // loading, 
-   const {request} = useHttp();
+   const [visibleForm, setVisibleForm] = useState(false);
+   // const [users, setUsers] = useState([]);
 
    const changeHandler = (event: any) => { 
       setForm({ ...form, [event.target.name]: event.target.value})
    };
 
-   const createHandler = async () => {
+   const createHandler = React.useCallback( async () => {
       try {
          const data = await request('/api/user/create', 'POST', {...form})
          console.log(data)
       } catch(e) {}
-   };
+   },[request, form]);
+
+   // const fetchPosts = React.useCallback( async () => {
+   //    try {
+   //       const fetched = await request('/api/get', 'GET', null, {})
+   //       setUsers(fetched)
+   //    } catch(err){
+
+   //    }
+
+   // }, [request])
 
    const handleTooltipClose = () => {
-      setOpen(false);
+      setVisibleForm(false);
     };
 
    const closeHandler  = () => {
       if ( form.email === '') {
-         setOpen(true);
+         setVisibleForm(true);
          return
       }
       createHandler()
       dispatch(hidenForm(false))
       dispatch(getChangeForm(form))
    };
+
+   React.useEffect(() => {
+      console.log('Компонент отабражен')
+      
+      return () => {
+         console.log('Компонент был размонтирован')
+      }
+   },[])
 
    return (
       <div className="wrapper">
@@ -105,7 +123,7 @@ export const Form: React.FC = () => {
                disablePortal: true,
             }}
             onClose={handleTooltipClose}
-            open={open}
+            open={visibleForm}
             title="Необходимо заполнить поля"
          >
             <Button 

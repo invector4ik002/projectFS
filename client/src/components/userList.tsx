@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react'; 
-// import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
@@ -8,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 import { UserItem } from './userItem';
-import { hidenForm } from '../redux/action';
+import { hidenForm, getDataUsers } from '../redux/action';
 import { useHttp } from '../hooks/http.hook';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,11 +39,12 @@ type StateProps = {
 }
 
 export const UserList: React.FC<StateProps> = ({ hide }) => {
-   console.log(hide)
+
    const {request} = useHttp();
    const classes = useStyles();
    const dispatch = useDispatch();
    const [users, setUsers] = useState([]);
+   console.log(users)
 
    const openedHandler = useCallback(() => {
       dispatch(hidenForm(true))
@@ -53,8 +53,8 @@ export const UserList: React.FC<StateProps> = ({ hide }) => {
    const fetchPosts = useCallback( async () => {
       try {
          const fetched = await request('/api/get', 'GET', null, {})
-         console.log('userList:', fetched)
          setUsers(fetched)
+         dispatch(getDataUsers(fetched))
       } catch(err){
 
       }
@@ -62,9 +62,8 @@ export const UserList: React.FC<StateProps> = ({ hide }) => {
    }, [request])
 
    useEffect(() => {
-
+      console.log('Component (userList) created')
       fetchPosts()
-      return () => {}
    },[fetchPosts, hide])
 
    return (
@@ -82,12 +81,3 @@ export const UserList: React.FC<StateProps> = ({ hide }) => {
       </Grid> 
    )
 }
-
-// const mapStateToProps = (state: AppStateType) => {
-   
-//    return {
-//       hides: state.hiden.hiden
-//    }
-// }
-
-// export default connect(mapStateToProps, null)(UserList);

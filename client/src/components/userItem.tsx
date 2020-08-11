@@ -59,20 +59,17 @@ type usersType = {
 }
 
 type StateProps = {
-   // hide: boolean,
    users: usersType[]
 }
 
 export const UserItem: React.FC<StateProps> = ({ users }) => {
-  console.log(users)
+   
   const classes = useStyles();
-
-//  {users.map(user => {
 
    return (
       <>
          {users.map((user, idx) => {
-          console.log(user)
+
          return (
                <Paper className={classes.wrapper} key={idx}>
                   <Typography className={classes.number} color="textSecondary" gutterBottom>#{idx +1}</Typography>

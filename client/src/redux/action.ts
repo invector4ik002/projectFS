@@ -1,21 +1,16 @@
-import { HIDEN_FORM, GET_CHANGE_FORM } from './types'
+import { HIDEN_FORM, GET_CHANGE_FORM, GET_DATA_USERS } from './types'
 
 export type ActionHideFormType = {
    type: typeof HIDEN_FORM,
    payload: boolean
-}
-
-// export type ActionGetChangeFormPayloadType = {
-//    form: {
-//       name: string,
-//       surname: string,
-//       email: string
-//    }
-// }
+};
 export type ActionGetChangeFormType = {
    type: typeof GET_CHANGE_FORM,
-   // payload: ActionGetChangeFormPayloadType
-}
+};
+export type ActionGetDataUsersType = {
+   type: typeof GET_DATA_USERS,
+   payload: Array<string>
+};
 
 export function hidenForm(value: boolean): ActionHideFormType {
    return {
@@ -23,11 +18,17 @@ export function hidenForm(value: boolean): ActionHideFormType {
       payload: value
    } 
 }
-//: ActionGetChangeFormType 
-//name: string, surname: string, email: string
-export function getChangeForm(form: any){
+
+export function getChangeForm(form: any) {
    return {
       type: GET_CHANGE_FORM,
       payload: form
    } 
+}
+
+export function getDataUsers(usersData: Array<string>): ActionGetDataUsersType {
+   return {
+      type: GET_DATA_USERS,
+      payload: usersData
+   }
 }
