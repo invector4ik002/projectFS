@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'; 
-import { useDispatch } from 'react-redux';
+import React from 'react'; 
+import { useDispatch, useSelector } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -7,8 +7,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 import { UserItem } from './userItem';
-import { hidenForm, getDataUsers } from '../redux/action';
-import { useHttp } from '../hooks/http.hook';
+import { hidenForm } from '../redux/action';
+import { AppStateType } from '../redux/rootReduser';
+import { initialStateType  } from '../redux/usersReduser';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -27,52 +28,28 @@ const useStyles = makeStyles((theme) => ({
    }
  }));
 
-type usersType = {
-   name: string,
-   surname: string,
-   email: string
-}
-
 type StateProps = {
    hide: boolean,
-   users: usersType[]
+   users: initialStateType
 }
 
 export const UserList: React.FC<StateProps> = ({ hide }) => {
 
-   const {request} = useHttp();
    const classes = useStyles();
-   const dispatch = useDispatch();
-   const [users, setUsers] = useState([]);
-   console.log(users)
 
-   const openedHandler = useCallback(() => {
+   const dispatch = useDispatch();
+   const users = useSelector((state: AppStateType) => state.users.users)
+
+   const openHandler =  React.useCallback(() => {
       dispatch(hidenForm(true))
    },[dispatch])
 
-   const fetchPosts = useCallback( async () => {
-      try {
-         const fetched = await request('/api/get', 'GET', null, {})
-         setUsers(fetched)
-         dispatch(getDataUsers(fetched))
-      } catch(err){
-
-      }
-
-   }, [request])
-
-   useEffect(() => {
-      console.log('Component (userList) created')
-      fetchPosts()
-   },[fetchPosts, hide])
-
    return (
       <Grid container spacing={3} >
-         {/* arr.length &&  */}
-         <UserItem users={users}/>
+         { users.length && <UserItem users={users}/> }
             <Paper 
                className={classes.addUser}
-               onClick={openedHandler} 
+               onClick={openHandler} 
             >
             <Grid item xs>
                <Typography className={classes.addUserContent} color="textSecondary" gutterBottom>+</Typography>

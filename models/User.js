@@ -4,7 +4,7 @@ const schema = new Schema({
    name: {
       type: String,
       required: true,
-      unique: true
+      // unique: true
    },
    surname: {
       type: String,

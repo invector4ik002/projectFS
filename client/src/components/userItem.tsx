@@ -52,17 +52,17 @@ const useStyles = makeStyles((theme) => ({
    }
  }));
 
-type usersType = {
+ type usersType = {
    name: string,
    surname: string,
    email: string
 }
 
-type StateProps = {
+type initialStateTypes = {
    users: usersType[]
 }
 
-export const UserItem: React.FC<StateProps> = ({ users }) => {
+export const UserItem: React.FC<initialStateTypes> = ({ users }) => {
    
   const classes = useStyles();
 

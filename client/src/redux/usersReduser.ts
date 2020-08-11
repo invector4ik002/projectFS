@@ -1,8 +1,14 @@
 import { GET_DATA_USERS } from './types';
 import { ActionGetDataUsersType } from './action'
 
-type initialStateType = {
-   users: Array<string>,
+type usersType = {
+   name: string,
+   surname: string,
+   email: string
+}
+
+export type initialStateType = {
+   users: usersType[]
 }
 
 const initialState: initialStateType = {

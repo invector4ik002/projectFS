@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
@@ -6,11 +6,10 @@ import { makeStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { hidenForm, getChangeForm} from '../redux/action';
+import { hidenForm, getChangeForm, getDataUsers} from '../redux/action';
 import { useHttp } from '../hooks/http.hook';
 
 export const Form: React.FC = () => {
-   const dispatch = useDispatch();
    
    const theme = createMuiTheme({
       overrides: {
@@ -38,11 +37,12 @@ export const Form: React.FC = () => {
       }
     });
    const classes = useStyles();
+
+   const dispatch = useDispatch();
    const {request} = useHttp();
 
-   const [form, setForm] = useState({ name: '', surname: '', email: '' });
-   const [visibleForm, setVisibleForm] = useState(false);
-   // const [users, setUsers] = useState([]);
+   const [form, setForm] = React.useState({ name: '', surname: '', email: '' });
+   const [visibleForm, setVisibleForm] = React.useState(false);
 
    const changeHandler = (event: any) => { 
       setForm({ ...form, [event.target.name]: event.target.value})
@@ -50,23 +50,20 @@ export const Form: React.FC = () => {
 
    const createHandler = React.useCallback( async () => {
       try {
-         const data = await request('/api/user/create', 'POST', {...form})
-         console.log(data)
+        await request('/api/user/create', 'POST', {...form})
       } catch(e) {}
    },[request, form]);
 
-   // const fetchPosts = React.useCallback( async () => {
-   //    try {
-   //       const fetched = await request('/api/get', 'GET', null, {})
-   //       setUsers(fetched)
-   //    } catch(err){
+   const fetchPosts = React.useCallback( async () => {
+      try {
+         const fetched = await request('/api/get', 'GET', null, {})
+         dispatch(getDataUsers(fetched))
+      } catch(err) {}
 
-   //    }
-
-   // }, [request])
+   }, [request, dispatch]);
 
    const handleTooltipClose = () => {
-      setVisibleForm(false);
+      setVisibleForm(false)
     };
 
    const closeHandler  = () => {
@@ -74,18 +71,17 @@ export const Form: React.FC = () => {
          setVisibleForm(true);
          return
       }
-      createHandler()
-      dispatch(hidenForm(false))
-      dispatch(getChangeForm(form))
+      createHandler();
+      dispatch(hidenForm(false));
+      dispatch(getChangeForm(form));
    };
 
    React.useEffect(() => {
-      console.log('Компонент отабражен')
-      
+      fetchPosts()
       return () => {
-         console.log('Компонент был размонтирован')
+         fetchPosts()
       }
-   },[])
+   },[fetchPosts]);
 
    return (
       <div className="wrapper">
@@ -137,5 +133,5 @@ export const Form: React.FC = () => {
          </MuiThemeProvider>
       </form>
     </div>
-   )
+   );
 };

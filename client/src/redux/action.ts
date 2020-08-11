@@ -7,10 +7,6 @@ export type ActionHideFormType = {
 export type ActionGetChangeFormType = {
    type: typeof GET_CHANGE_FORM,
 };
-export type ActionGetDataUsersType = {
-   type: typeof GET_DATA_USERS,
-   payload: Array<string>
-};
 
 export function hidenForm(value: boolean): ActionHideFormType {
    return {
@@ -26,7 +22,16 @@ export function getChangeForm(form: any) {
    } 
 }
 
-export function getDataUsers(usersData: Array<string>): ActionGetDataUsersType {
+type usersType = {
+   name: string,
+   surname: string,
+   email: string
+}
+export type ActionGetDataUsersType = {
+   type: typeof GET_DATA_USERS,
+   payload: usersType[]
+};
+export function getDataUsers(usersData: usersType[]): ActionGetDataUsersType {
    return {
       type: GET_DATA_USERS,
       payload: usersData
