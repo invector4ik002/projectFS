@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
      const users = await User.find(req.params.id) 
      res.json(users) 
    } catch (err) {
-      res.status(500).json({ message: '...Error server !!!' })
+      res.status(500).json({ message: '...Error server get.routers!!!' })
    }
 });
 

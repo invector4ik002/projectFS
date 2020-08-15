@@ -69,14 +69,13 @@ export const UserItem: React.FC<initialStateTypes> = ({ users }) => {
    return (
       <>
          {users.map((user, idx) => {
-
          return (
                <Paper className={classes.wrapper} key={idx}>
                   <Typography className={classes.number} color="textSecondary" gutterBottom>#{idx +1}</Typography>
                   <Paper className={classes.paper}>
                      <Grid container direction="row" wrap="nowrap" spacing={2} >
                         <Grid item>
-                           <Avatar className={classes.awatar}>MD</Avatar>
+                        <Avatar className={classes.awatar}>{user.name[0]}{user.surname[0]}</Avatar>
                         </Grid>
                         <Grid item xs>
                            <Typography>{user.name} {user.surname}</Typography>

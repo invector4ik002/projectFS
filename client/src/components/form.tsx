@@ -6,11 +6,11 @@ import { makeStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { hidenForm, getChangeForm, getDataUsers} from '../redux/action';
+import { hidenForm, getChangeForm, getDataUsers } from '../redux/action';
 import { useHttp } from '../hooks/http.hook';
 
 export const Form: React.FC = () => {
-   
+
    const theme = createMuiTheme({
       overrides: {
         MuiTooltip: {
@@ -47,21 +47,29 @@ export const Form: React.FC = () => {
    const changeHandler = (event: any) => { 
       setForm({ ...form, [event.target.name]: event.target.value})
    };
+   
+   const fetchPosts = React.useCallback( async () => {
 
+      try {
+         const fetched = await request('/api/get', 'GET', null, {})
+         dispatch(getDataUsers(fetched))
+      } catch(err) {}
+   
+   },[dispatch, request])
+  
+   React.useEffect(() => {
+      fetchPosts();
+      return () => {
+         fetchPosts();
+      }
+   },[fetchPosts]);
+  
    const createHandler = React.useCallback( async () => {
       try {
         await request('/api/user/create', 'POST', {...form})
       } catch(e) {}
    },[request, form]);
-
-   const fetchPosts = React.useCallback( async () => {
-      try {
-         const fetched = await request('/api/get', 'GET', null, {})
-         dispatch(getDataUsers(fetched))
-      } catch(err) {}
-
-   }, [request, dispatch]);
-
+   
    const handleTooltipClose = () => {
       setVisibleForm(false)
     };
@@ -75,14 +83,7 @@ export const Form: React.FC = () => {
       dispatch(hidenForm(false));
       dispatch(getChangeForm(form));
    };
-
-   React.useEffect(() => {
-      fetchPosts()
-      return () => {
-         fetchPosts()
-      }
-   },[fetchPosts]);
-
+  
    return (
       <div className="wrapper">
       <form className='form-create-users'  noValidate autoComplete="off">

@@ -16,7 +16,7 @@ router.post('/create',
       if(!errors.isEmpty()) { 
          return res.status(400).json({
             errors: errors.array(),
-            message: 'Некорректные данные при регистрации'
+            message: 'Некорректные данные'
          })
       }
 
@@ -28,7 +28,7 @@ router.post('/create',
       res.status(201).json(user)
      
    } catch (err) {
-      res.status(500).json({ message: '...Error server !!!' })
+      res.status(500).json({ message: '...Error server user.routers !!!' })
    }
 });
 

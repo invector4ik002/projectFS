@@ -29,15 +29,15 @@ const useStyles = makeStyles((theme) => ({
  }));
 
 type StateProps = {
-   hide: boolean,
    users: initialStateType
 }
 
-export const UserList: React.FC<StateProps> = ({ hide }) => {
+export const UserList: React.FC<StateProps> = () => {
 
    const classes = useStyles();
 
    const dispatch = useDispatch();
+
    const users = useSelector((state: AppStateType) => state.users.users)
 
    const openHandler =  React.useCallback(() => {
