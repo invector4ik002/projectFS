@@ -7,7 +7,8 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { hidenForm, getChangeForm, getDataUsers } from '../redux/action';
-import { useHttp } from '../hooks/http.hook';
+// import { useHttp } from '../hooks/http.hook';
+// import useFetch from '../hooks/useFetch';
 
 export const Form: React.FC = () => {
 
@@ -39,36 +40,45 @@ export const Form: React.FC = () => {
    const classes = useStyles();
 
    const dispatch = useDispatch();
-   const {request} = useHttp();
+   // const {request} = useHttp();
 
    const [form, setForm] = React.useState({ name: '', surname: '', email: '' });
    const [visibleForm, setVisibleForm] = React.useState(false);
-
+   // const [{response, isloading, error}, doFetch] = useFetch('/api/get')
+   // console.log('response:', response, 'isloading:' ,isloading, 'error:', error);
    const changeHandler = (event: any) => { 
       setForm({ ...form, [event.target.name]: event.target.value})
    };
    
-   const fetchPosts = React.useCallback( async () => {
+   // const fetchPosts = React.useCallback( async () => {
 
-      try {
-         const fetched = await request('/api/get', 'GET', null, {})
-         dispatch(getDataUsers(fetched))
-      } catch(err) {}
+   //    try {
+   //       const fetched = await request('/api/get', 'GET', null, {})
+         // dispatch(getDataUsers(fetched))
+   //    } catch(err) {}
    
-   },[dispatch, request])
+   // },[dispatch, request])
   
-   React.useEffect(() => {
-      fetchPosts();
-      return () => {
-         fetchPosts();
-      }
-   },[fetchPosts]);
+   // React.useEffect(() => {
+
+   //    doFetch({
+   //       method:'get',
+   //       data: {
+   //          users:{}
+   //       }
+   //    })
+
+   //    // fetchPosts();
+   //    // return () => {
+   //    //    fetchPosts();
+   //    // }
+   // },[]);
   
-   const createHandler = React.useCallback( async () => {
-      try {
-        await request('/api/user/create', 'POST', {...form})
-      } catch(e) {}
-   },[request, form]);
+   // const createHandler = React.useCallback( async () => {
+   //    try {
+   //      await request('/api/user/create', 'POST', {...form})
+   //    } catch(e) {}
+   // },[request, form]);
    
    const handleTooltipClose = () => {
       setVisibleForm(false)
@@ -79,7 +89,7 @@ export const Form: React.FC = () => {
          setVisibleForm(true);
          return
       }
-      createHandler();
+
       dispatch(hidenForm(false));
       dispatch(getChangeForm(form));
    };
